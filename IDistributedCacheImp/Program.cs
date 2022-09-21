@@ -1,12 +1,20 @@
+using IDistributedCacheImp.DatabaseManager;
+using IDistributedCacheImp.RedisManager;
+using Microsoft.Extensions.Caching.Distributed;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddSingleton<IRedisService, RedisService>();
+builder.Services.AddSingleton<DatabaseService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddStackExchangeRedisCache(opt =>
+{
+    opt.Configuration = "localhost:6379"; 
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
