@@ -18,9 +18,9 @@ namespace IDistributedCacheImp.Controllers
         public void Login(UserLogin userLogin)
         {
             //Çeþitli validasyonlardan geçip login olduðunu düþünüyoruz ve login bilgisini redis e atýyoruz.
-            _redisService.Add("USER", userLogin,    new DistributedCacheEntryOptions { AbsoluteExpiration=DateTime.Now.AddSeconds(30)});
+            _redisService.Add("USER", userLogin,DateTime.Now.AddSeconds(30),null);
             //Uygulamaya giriþ yapýldýðý anda deðiþmesi mümkün olmayan bir veri grubunu redis e atýyoruz. 
-            _redisService.Add("CURRENCIES", _databaseService.GetDbAllCurrency(),new DistributedCacheEntryOptions { SlidingExpiration=TimeSpan.FromMinutes(60) });
+            _redisService.Add("CURRENCIES", _databaseService.GetDbAllCurrency(),null,TimeSpan.FromMinutes(60));
         }
 
         [HttpGet("GetProducts")]
@@ -32,7 +32,7 @@ namespace IDistributedCacheImp.Controllers
                 //Db e gidip verileri aldýðýný düþünelim.
                 return Ok(_databaseService.GetDbAllProduct());
             }
-            return BadRequest("Üye bulunamadý");
+            return BadRequest("Lütfen Giriþ Yapýnýz..!");
 
         }
         [HttpGet("GetAllCurrency")]
@@ -43,7 +43,7 @@ namespace IDistributedCacheImp.Controllers
             {
                 return Ok(_redisService.Get<List<Currencies>>("CURRENCIES"));
             }
-            return BadRequest("Üye bulunamadý");
+            return BadRequest("Lütfen Giriþ Yapýnýz..!");
 
         }
 

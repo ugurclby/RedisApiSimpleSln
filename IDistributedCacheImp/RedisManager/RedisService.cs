@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using StackExchange.Redis;
+using IDistributedCacheImp.Helper;
 
 namespace IDistributedCacheImp.RedisManager
 {
@@ -12,13 +13,13 @@ namespace IDistributedCacheImp.RedisManager
         {
             _distributedCache = distributedCache; 
         } 
-        public void Add(string key, object data,  DistributedCacheEntryOptions distributedCacheEntryOptions)
+        public void Add(string key, object data, DateTimeOffset? absExpr, TimeSpan? sldExpr)
         {
-              _distributedCache.SetString(key, data.ToJsonString(), distributedCacheEntryOptions);
+              _distributedCache.SetString(key, data.ToJsonString(), new DistributedCacheEntryOptions() { AbsoluteExpiration = absExpr,SlidingExpiration=sldExpr });
         }
-        public void Add(string key, byte[] data,  DistributedCacheEntryOptions distributedCacheEntryOptions)
+        public void Add(string key, byte[] data, DateTimeOffset? absExpr, TimeSpan? sldExpr)
         {
-            _distributedCache.Set(key, data, distributedCacheEntryOptions);
+            _distributedCache.Set(key, data, new DistributedCacheEntryOptions() { AbsoluteExpiration = absExpr, SlidingExpiration = sldExpr });
         }
         public bool Any(string key)
         { 
@@ -39,12 +40,5 @@ namespace IDistributedCacheImp.RedisManager
         {
             _distributedCache.Remove(key);
         }
-    }
-    public static class Extension
-    {
-        public static string ToJsonString(this object data)
-        {
-            return  JsonConvert.SerializeObject(data, Formatting.Indented);
-        }
-    }
+    } 
 }
