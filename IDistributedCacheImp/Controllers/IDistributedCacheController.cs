@@ -18,9 +18,11 @@ namespace IDistributedCacheImp.Controllers
         public void Login(UserLogin userLogin)
         {
             //Çeþitli validasyonlardan geçip login olduðunu düþünüyoruz ve login bilgisini redis e atýyoruz.
-            _redisService.Add("USER", userLogin,DateTime.Now.AddSeconds(30),null);
+            //Projenin herhangi bir yerinde istersek login kontrolü yada user bilgisinin gerekli olduðu yerlerde kullanabiliriz.
+            _redisService.Add("USER", userLogin,DateTime.Now.AddMinutes(30),null);
             //Uygulamaya giriþ yapýldýðý anda deðiþmesi mümkün olmayan bir veri grubunu redis e atýyoruz. 
             _redisService.Add("CURRENCIES", _databaseService.GetDbAllCurrency(),null,TimeSpan.FromMinutes(60));
+            _redisService.Add("VEHICLES", _databaseService.GetDbAllUserVehicle(), null, TimeSpan.FromMinutes(60));
         }
 
         [HttpGet("GetProducts")]
@@ -46,6 +48,20 @@ namespace IDistributedCacheImp.Controllers
             return BadRequest("Lütfen Giriþ Yapýnýz..!");
 
         }
+        [HttpGet("GetAllUserVehicle")]
+        public IActionResult GetAllUserVehicle()
+        {
+            var user = _redisService.Get<UserLogin>("USER");
 
+            // Yapýlmasý planlanan herhangi bir iþlemde ürün bilgilerine ulaþýlmasý gerektiðinde
+            if (user != null)
+            {
+                var vehicles = _redisService.Get<List<Vehicles>>("VEHICLES").Where(x=>x.UserName== user.UserCode).ToList(); 
+
+                return Ok(vehicles);
+            }
+            return BadRequest("Lütfen Giriþ Yapýnýz..!");
+
+        }
     }
 }

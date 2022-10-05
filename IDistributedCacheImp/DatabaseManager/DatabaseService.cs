@@ -24,10 +24,28 @@ namespace IDistributedCacheImp.DatabaseManager
                 CurrencyName = "USD"
             });
             return listCurrencies;
-        } 
-        public List<Products> GetDbAllProduct()
+        }
+        public List<Vehicles> GetDbAllUserVehicle()
         {
             var faker = new Faker();
+            List<Vehicles> listVehicles = new List<Vehicles>();
+            for (int i = 0; i < 100; i++)
+            {
+                listVehicles.Add(new Vehicles
+                {
+                    VehicleVin = faker.Vehicle.Vin(),
+                    VehicleName = faker.Vehicle.Model(),
+                    UserName = i%2==0?faker.Name.FullName():"ugur"
+                });
+            } 
+
+            return listVehicles;
+        } 
+
+        public List<Products> GetDbAllProduct()
+        {
+            var faker = new Faker(); 
+
             List<Products> products = new List<Products>();
 
             for (int i = 0; i < 30; i++)
