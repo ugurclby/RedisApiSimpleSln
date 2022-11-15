@@ -11,6 +11,11 @@ namespace StackExchangeImp.RedisManager
         Task<T> GetAsyncString<T>(string key); 
         void DeleteString(string key);
         Task DeleteAsyncString(string key); 
+        void AddList<T>(string key, T value); 
+        Task AddAsyncList<T>(string key, T value);
+        List<T> GetList<T>(string key) where T : class, new();
+        Task<List<T>> GetAsyncList<T>(string key) where T : class, new();
+        void DeleteList<T>(string key, T value) where T : class, new();
         bool IsExists(string key); 
     }
 }

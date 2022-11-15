@@ -1,7 +1,7 @@
 using Bogus;
 using IDistributedCacheImp.DatabaseManager;
 using IDistributedCacheImp.Model;
-using IDistributedCacheImp.RedisManager;
+using IDistributedCacheImp.CacheManager;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 
@@ -12,12 +12,12 @@ namespace IDistributedCacheImp.Controllers
     public class BaseApiController : ControllerBase
     { 
         protected  ILogger<IDistributedCacheController> _logger;
-        protected IRedisService _redisService;
+        protected ICacheService _cacheService;
         protected DatabaseService _databaseService;
-        public BaseApiController(ILogger<IDistributedCacheController> logger, IRedisService redisService, DatabaseService databaseService)
+        public BaseApiController(ILogger<IDistributedCacheController> logger, ICacheService cacheService, DatabaseService databaseService)
         {
             _logger = logger;
-            _redisService = redisService; 
+            _cacheService = cacheService; 
             _databaseService= databaseService;
         }
         

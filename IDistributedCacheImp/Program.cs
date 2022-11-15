@@ -1,5 +1,5 @@
 using IDistributedCacheImp.DatabaseManager;
-using IDistributedCacheImp.RedisManager;
+using IDistributedCacheImp.CacheManager;
 using Microsoft.Extensions.Caching.Distributed;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddSingleton<IRedisService, RedisService>();
+builder.Services.AddSingleton<ICacheService, RedisService>();
 builder.Services.AddSingleton<DatabaseService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

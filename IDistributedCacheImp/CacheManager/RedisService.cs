@@ -2,11 +2,11 @@
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using StackExchange.Redis;
-using IDistributedCacheImp.Helper;
+using IDistributedCacheImp.Helper; 
 
-namespace IDistributedCacheImp.RedisManager
+namespace IDistributedCacheImp.CacheManager
 {
-    public class RedisService : IRedisService 
+    public class RedisService : ICacheService
     {
         private readonly IDistributedCache _distributedCache;
         public RedisService(IDistributedCache distributedCache)

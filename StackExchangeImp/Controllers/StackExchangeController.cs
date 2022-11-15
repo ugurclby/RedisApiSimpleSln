@@ -16,38 +16,24 @@ namespace StackExchangeImp.Controllers
         }
         [HttpGet]
         public ActionResult ListBasket()
-        {
-            
-            return Ok();
+        { 
+            var products = _cacheService.GetList<Products>("BASKET");
+            return Ok(products);
         }
-
+         
         [HttpPost]
-        public ActionResult AddBasket()
+        public ActionResult AddBasket(Products products)
         {
-
-            _cacheService.AddString<string>("Urun", "test", null);
-            _cacheService.AddString<string>("Yeni", "test2", null);
-            return Ok();
-        }
-        //[HttpPost]
-        //public ActionResult AddBasket(Products products)
-        //{
-
-        //    _cacheService.AddString<string>("Urun", "test", null);
-        //    return Ok();
-        //}
-        
-        [HttpDelete]
-        public ActionResult DeleteBasket()
-        {
-            _cacheService.AddString<string>("Urun", "test3", null);
+            _cacheService.AddList<Products>("BASKET", products); 
             return Ok();
         } 
-        
-        //[HttpDelete]
-        //public ActionResult DeleteBasket(int productId)
-        //{
-        //    return Ok();
-        //}
+
+        [HttpDelete("{productId}")]
+        public ActionResult DeleteBasket(int productId)
+        {
+            var products = _cacheService.GetList<Products>("BASKET");
+            _cacheService.DeleteList<Products>("BASKET",products.Where(x => x.ProductId == productId).FirstOrDefault()); 
+            return Ok();
+        }
     }
 }
