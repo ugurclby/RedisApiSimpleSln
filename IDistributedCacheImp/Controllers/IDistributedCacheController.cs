@@ -7,14 +7,20 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace IDistributedCacheImp.Controllers
 {
-    public class IDistributedCacheController : BaseApiController
+    public class IDistributedCacheController : ControllerBase
     {
-        public IDistributedCacheController(ILogger<IDistributedCacheController> logger, ICacheService cacheService,DatabaseService databaseService ) : base(logger, cacheService, databaseService)
+        protected ILogger<IDistributedCacheController> _logger;
+        protected ICacheService _cacheService;
+        protected DatabaseService _databaseService;
+        public IDistributedCacheController(ILogger<IDistributedCacheController> logger, ICacheService cacheService,DatabaseService databaseService )
         {
-             
+            _logger = logger;
+            _cacheService = cacheService;
+            _databaseService = databaseService;
         }
 
-        [HttpPost]
+
+        [HttpPost("Login")]
         public void Login(UserLogin userLogin)
         {
             //Çeþitli validasyonlardan geçip login olduðunu düþünüyoruz ve login bilgisini redis e atýyoruz.
