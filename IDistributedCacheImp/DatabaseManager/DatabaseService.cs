@@ -25,7 +25,7 @@ namespace IDistributedCacheImp.DatabaseManager
             });
             return listCurrencies;
         }
-        public List<Vehicles> GetDbAllUserVehicle()
+        public List<Vehicles> GetDbAllUserVehicle(string UserCode)
         {
             var faker = new Faker();
             List<Vehicles> listVehicles = new List<Vehicles>();
@@ -35,7 +35,7 @@ namespace IDistributedCacheImp.DatabaseManager
                 {
                     VehicleVin = faker.Vehicle.Vin(),
                     VehicleName = faker.Vehicle.Model(),
-                    UserName = i%2==0?faker.Name.FullName():"ugur"
+                    UserName = i%2==0?faker.Name.FullName(): UserCode
                 });
             } 
 

@@ -1,9 +1,7 @@
-using Bogus;
+using IDistributedCacheImp.CacheManager;
 using IDistributedCacheImp.DatabaseManager;
 using IDistributedCacheImp.Model;
-using IDistributedCacheImp.CacheManager;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
 
 namespace IDistributedCacheImp.Controllers
 {
@@ -27,8 +25,8 @@ namespace IDistributedCacheImp.Controllers
             //Projenin herhangi bir yerinde istersek login kontrolü yada user bilgisinin gerekli olduðu yerlerde kullanabiliriz.
             _cacheService.Add("USER", userLogin,DateTime.Now.AddMinutes(30),null);
             //Uygulamaya giriþ yapýldýðý anda deðiþmesi mümkün olmayan bir veri grubunu redis e atýyoruz. 
-            _cacheService.Add("CURRENCIES", _databaseService.GetDbAllCurrency(),null,TimeSpan.FromMinutes(60));
-            _cacheService.Add("VEHICLES", _databaseService.GetDbAllUserVehicle(), null, TimeSpan.FromMinutes(60));
+            _cacheService.Add("CURRENCIES", _databaseService.GetDbAllCurrency(), DateTime.Now.AddMinutes(120), TimeSpan.FromMinutes(60));
+            _cacheService.Add("VEHICLES", _databaseService.GetDbAllUserVehicle(userLogin.UserCode), DateTime.Now.AddMinutes(120), TimeSpan.FromMinutes(60));
         }
 
         [HttpGet("GetProducts")]
