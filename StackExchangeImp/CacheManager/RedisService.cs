@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using StackExchange.Redis;
 
 namespace StackExchangeImp.RedisManager
@@ -27,14 +26,11 @@ namespace StackExchangeImp.RedisManager
             List<T> model = new List<T>();
             _db.ListRangeAsync(key, 0, -1).Result.ToList().ForEach(x => model.Add(JsonConvert.DeserializeObject<T>(x)));
             return model;
-        }
-
+        } 
         public void DeleteList<T>(string key,T value) where T : class, new()
         {
             _db.ListRemove(key,JsonConvert.SerializeObject(value));
-        }
-
-
+        } 
         public async Task AddAsyncString<T>(string key, T value, TimeSpan? sldExp) => await _db.StringSetAsync(key, JsonConvert.SerializeObject(value), sldExp);
         public void AddString<T>(string key, T value, TimeSpan? sldExp) => _db.StringSet(key, JsonConvert.SerializeObject(value), sldExp);
         public async Task DeleteAsyncString(string key) => await _db.KeyDeleteAsync(key);

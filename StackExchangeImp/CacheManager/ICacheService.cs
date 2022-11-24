@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
-
-namespace StackExchangeImp.RedisManager
+﻿namespace StackExchangeImp.RedisManager
 {
     public interface ICacheService
     {

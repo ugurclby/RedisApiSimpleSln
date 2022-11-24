@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using StackExchangeImp.Model;
 using StackExchangeImp.RedisManager;
 
@@ -14,20 +13,18 @@ namespace StackExchangeImp.Controllers
         {
             _cacheService = cacheService;
         }
+        [HttpPost]
+        public ActionResult AddBasket(Products products)
+        {
+            _cacheService.AddList<Products>("BASKET", products);
+            return Ok();
+        } 
         [HttpGet]
         public ActionResult ListBasket()
         { 
             var products = _cacheService.GetList<Products>("BASKET");
             return Ok(products);
-        }
-         
-        [HttpPost]
-        public ActionResult AddBasket(Products products)
-        {
-            _cacheService.AddList<Products>("BASKET", products); 
-            return Ok();
-        } 
-
+        }  
         [HttpDelete("{productId}")]
         public ActionResult DeleteBasket(int productId)
         {
