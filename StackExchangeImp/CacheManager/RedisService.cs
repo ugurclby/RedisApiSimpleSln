@@ -9,9 +9,8 @@ namespace StackExchangeImp.RedisManager
         private readonly IDatabase _db;
         public RedisService(RedisConnDb redisConnDb)
         {
-            _redisConnDb = redisConnDb;
-            _redisConnDb.Connect();
-            _db = _redisConnDb.GetDb(0);
+            _redisConnDb = redisConnDb; 
+            _db = _redisConnDb.Connect(0);
         } 
         public async Task AddAsyncList<T>(string key, T value) => await _db.ListRightPushAsync(key, JsonConvert.SerializeObject(value)); 
         public void AddList<T>(string key, T value) => _db.ListRightPush(key, JsonConvert.SerializeObject(value)); 

@@ -14,11 +14,11 @@ namespace StackExchangeImp.RedisManager
             _redisHost = configuration["Redis:Host"];
             _redisPort = configuration["Redis:Port"];
         }
-        public void Connect()
+        public IDatabase Connect(int dbIndex)
         {
             var config = $"{_redisHost}:{_redisPort}";
             _ConnectionMultiplexer = ConnectionMultiplexer.Connect(config);
-        }
-        public IDatabase GetDb(int dbIndex) =>  _ConnectionMultiplexer.GetDatabase(dbIndex);
+            return _ConnectionMultiplexer.GetDatabase(dbIndex); 
+        } 
     }
 }
